@@ -15,8 +15,9 @@ class CreateEmpleadosTable extends Migration
     {
         Schema::create('empleados', function (Blueprint $table) {
             $table->id();
+            $table->string('id_empleado')->unique();
             $table->string('nombre');
-            $table->string('puesto');
+            $table->bigInteger('puesto_id');
             $table->date('fecha_contrato');
             $table->integer('sueldo_diario');
             $table->timestamps();

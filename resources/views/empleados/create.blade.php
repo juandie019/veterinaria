@@ -26,12 +26,30 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="puesto" class="col-md-4 col-form-label text-md-right">{{ __('Puesto') }}</label>
+                            <label for="id_empleado" class="col-md-4 col-form-label text-md-right">{{ __('ID de empleado') }}</label>
 
                             <div class="col-md-6">
-                                <input id="puesto" type="text" class="form-control @error('puesto') is-invalid @enderror" name="puesto" value="{{ old('puesto') }}" required autocomplete="name" autofocus>
+                                <input id="id_empleado" type="text" class="form-control @error('id_empleado') is-invalid @enderror" name="id_empleado" value="{{ old('id_empleado') }}" required autocomplete="name" autofocus>
 
-                                @error('puesto')
+                                @error('id_empleado')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="puesto_id" class="col-md-4 col-form-label text-md-right">{{ __('Puesto') }}</label>
+
+                            <div class="col-md-6">
+
+                                <select name="puesto_id" id="pueso" class="form-control" required>
+                                    @foreach ($puestos as $puesto)
+                                      <option value={{$puesto->id}}>{{$puesto->nombre}}</option>
+                                    @endforeach
+                                </select>
+                                @error('puesto_id')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

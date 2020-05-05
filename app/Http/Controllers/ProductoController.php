@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class ProductoController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -37,16 +41,23 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'nombre' => 'string',
+            'precio' => 'required|int',
+            'ubicacion' => 'required'
+        ]);
+
         $producto = new Producto();
 
         $producto -> nombre = $request['nombre'];
+        $producto -> id_producto = $request['id_producto'];
         $producto -> precio = $request['precio'];
         $producto -> categoria = $request['categoria'];
         $producto -> marca = $request['marca'];
         $producto -> descripcion = $request['descripcion'];
         $producto -> ubicacion = $request['ubicacion'];
         $producto -> existencia_piso = $request['existencia_piso'];
-        $producto -> existencia_almacen = $request['existencia_almacen'];
+        $producto -> existencia_almacen = $request['cantidad'];
 
         $producto -> save();
 
@@ -64,6 +75,15 @@ class ProductoController extends Controller
         //
     }
 
+    public function search(Request $request){
+
+        $producto = Producto::where('id_producto','LIKE',$request['id_producto'])->get();
+
+        if(count($producto) > 0)
+             return view('productos.show', compact('producto'));
+        else return 'no se encontro';
+
+    }
     /**
      * Show the form for editing the specified resource.
      *

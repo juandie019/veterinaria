@@ -21,17 +21,16 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/ruta', function () {
+   return view('empleados.search');
+});
+
 Route::resource('empleado', 'EmpleadoController');
 Route::resource('cliente', 'ClienteController');
 Route::resource('producto', 'ProductoController');
 
-
-// Route::get('/registrar_empleado', 'EmpleadoController@create')->name('registrar_empleado');
-// Route::get('/empleados', 'EmpleadoController@index')->name('mostrar_empleados');
- //Route::post('/guardar_empleado', 'EmpleadoController@store');
-
-
-// Route::get('/registrar_cliente', 'ClienteController@create')->name('registrar_cliente');
-// Route::post('/guardar_cliente', 'ClienteController@store');
+Route::post('/cliente/search', 'ClienteController@search')->name('cliente.search');
+Route::post('/producto/search', 'ProductoController@search')->name('producto.search');
+Route::post('/empleado/search', 'EmpleadoController@search')->name('empleado.search');
 
 

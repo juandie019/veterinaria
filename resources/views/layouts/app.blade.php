@@ -34,28 +34,36 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         @auth
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('empleado.create') }}">{{ __('Agregar empelado') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('empleado.index') }}">{{ __('Ver empelados') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('cliente.create') }}">{{ __('Agregar cliente') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('cliente.index') }}">{{ __('Ver clientes') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('producto.create') }}">{{ __('Agregar producto') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('producto.index') }}">{{ __('Ver productos') }}</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('producto.create') }}">{{ __('Hacer venta') }}</a>
-                            </li>
+                            @can('create', App\Empleado::class)
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('empleado.create') }}">{{ __('Agregar empelado') }}</a>
+                                </li>
+                            @endcan
+                            @can('viewAny', App\Empleado::class)
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('empleado.index') }}">{{ __('Ver empelados') }}</a>
+                                </li>
+                            @endcan
+                            @can('create', App\Cliente::class)
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('cliente.create') }}">{{ __('Agregar cliente') }}</a>
+                                </li>
+                            @endcan
+                            @can('viewAny', App\Cliente::class)
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('cliente.index') }}">{{ __('Ver clientes') }}</a>
+                                </li>
+                            @endcan
+                            @can('create', App\Producto::class)
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('producto.create') }}">{{ __('Agregar producto') }}</a>
+                                </li>
+                            @endcan
+                            @can('viewAny', App\Producto::class)
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('producto.index') }}">{{ __('Ver productos') }}</a>
+                                </li>
+                            @endcan
                         @endauth
                     </ul>
 
@@ -74,7 +82,11 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    @if( isset(Auth::user()->empleado))
+                                       {{ Auth::user()->empleado->nombre }} <span class="caret"></span>
+                                    @else
+                                       {{ 'Desconocido' }} <span class="caret"></span>
+                                    @endif
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Empleado;
+use App\Puesto;
+use App\User;
 use Illuminate\Http\Request;
 
 class EmpleadoController extends Controller
@@ -30,7 +32,9 @@ class EmpleadoController extends Controller
      */
     public function create()
     {
-        return View('empleados.create');
+        $puestos = Puesto::all();
+
+        return View('empleados.create', compact('puestos'));
     }
 
     /**
@@ -42,20 +46,20 @@ class EmpleadoController extends Controller
     public function store(Request $request)
     {
 
-        // $request->validate([
-        //   'nombre' => 'required',
-        //   'puesto' => 'required',
-        //   'fecha' => 'date',
-        //   'sueldo' => 'int'
-        // ]);
+        $request->validate([
+          'nombre' => 'required',
+          'puesto_id' => 'required',
+          'fecha' => 'date',
+          'sueldo' => 'int'
+        ]);
 
         $empleado = new Empleado();
 
         $empleado -> nombre = $request['nombre'];
-        $empleado -> puesto = $request['puesto'];
+        $empleado-> id_empleado = $request['id_empleado'];
+        $empleado -> puesto_id = $request['puesto_id'];
         $empleado -> fecha_contrato = $request['fecha'];
         $empleado -> sueldo_diario = $request['sueldo'];
-
         $empleado -> save();
         return redirect()->route('empleado.index');
     }
@@ -77,6 +81,22 @@ class EmpleadoController extends Controller
      * @param  \App\Empleado  $empleado
      * @return \Illuminate\Http\Response
      */
+    public function search(Request $request){
+        $empleado = Empleado::where('id_empleado','LIKE',$request['id_empleado'])->get();
+
+        $user = User::where('id','LIKE','1')->get();
+
+        $puesto = User::find(1)->empleado->puesto->nombre;
+
+
+        dd($puesto);
+
+        if(count($empleado) > 0)
+             return view('empleados.show', compact('empleado'));
+        else return 'no se encontro';
+
+    }
+
     public function edit(Empleado $empleado)
     {
         //

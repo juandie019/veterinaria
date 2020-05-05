@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    Este es un espacio para recordatorios
                 </div>
             </div>
         </div>

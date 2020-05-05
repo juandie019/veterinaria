@@ -43,6 +43,13 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+           'nombre' => 'nullable|alpha|max:30',
+           'numero_celular' => 'required|digits:10',
+           'correo' => 'nullable|email:rfc',
+           'rfc' => 'nullable|alpha_num'
+        ]);
+
         $cliente = new Cliente();
 
         $cliente -> nombre = $request['nombre'];
@@ -52,7 +59,7 @@ class ClienteController extends Controller
 
         $cliente -> save();
 
-        return redirect()->route('empleado.index');
+        return redirect()->route('cliente.index');
     }
 
     /**
@@ -61,11 +68,21 @@ class ClienteController extends Controller
      * @param  \App\Cliente  $cliente
      * @return \Illuminate\Http\Response
      */
+
+
     public function show(Cliente $cliente)
     {
-        //
+        return view('clientes.show', compact('cliente'));
     }
 
+    public function search(Request $request){
+         $cliente = Cliente::where('numero_celular','LIKE',$request['numero_celular'])->get();
+
+        if(count($cliente) > 0)
+            return view('clientes.show', compact('cliente'));
+        else return 'no se encontro';
+
+    }
     /**
      * Show the form for editing the specified resource.
      *

@@ -26,6 +26,20 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="id_producto" class="col-md-4 col-form-label text-md-right">{{ __('ID de producto') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="id_producto" type="text" class="form-control @error('id_producto') is-invalid @enderror" name="id_producto" value="{{ old('id_producto') }}" required autocomplete="id_producto" autofocus>
+
+                                @error('id_producto')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="precio" class="col-md-4 col-form-label text-md-right">{{ __('precio') }}</label>
 
                             <div class="col-md-6">

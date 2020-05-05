@@ -29,7 +29,7 @@
                             <label for="numero_celular" class="col-md-4 col-form-label text-md-right">{{ __('Telefono') }}</label>
 
                             <div class="col-md-6">
-                                <input id="numero_celular" type="text" class="form-control @error('numero_celular') is-invalid @enderror" name="numero_celular" value="{{ old('numero_celular') }}" required autocomplete="numero_celular" autofocus>
+                                <input id="numero_celular" type="text" class="form-control @error('numero_celular') is-invalid @enderror" name="numero_celular" value="{{ old('numero_celular') }}" autocomplete="numero_celular" autofocus>
 
                                 @error('numero_celular')
                                     <span class="invalid-feedback" role="alert">
