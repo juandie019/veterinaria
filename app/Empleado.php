@@ -27,6 +27,6 @@ class Empleado extends Model
 
     public function esAlmacenista()
     {
-        return $this->puesto->nombre == 'cajero';
+        return $this->puesto->nombre == 'almacenista';
     }
 }

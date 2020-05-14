@@ -63,6 +63,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('producto.index') }}">{{ __('Ver productos') }}</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('venta.create') }}">{{ __('Hacer venta') }}</a>
+                                </li>
                             @endcan
                         @endauth
                     </ul>

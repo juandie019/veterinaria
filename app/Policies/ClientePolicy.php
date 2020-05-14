@@ -49,7 +49,7 @@ class ClientePolicy
             return true;
         }
 
-        return $user->empleado->esGerente() || $user->empleado->esCajero();
+        return $user->empleado->esCajero();
     }
 
     /**

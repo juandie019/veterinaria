@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Producto;
+use Dotenv\Repository\RepositoryInterface;
 use Illuminate\Http\Request;
+use SebastianBergmann\Environment\Console;
+use App\Http\Resources\Producto as ProductoResource;
 
 class ProductoController extends Controller
 {
@@ -77,12 +80,20 @@ class ProductoController extends Controller
 
     public function search(Request $request){
 
-        $producto = Producto::where('id_producto','LIKE',$request['id_producto'])->get();
+        $producto = Producto::where('id_producto','LIKE', $request['id_producto'])->get();
 
         if(count($producto) > 0)
              return view('productos.show', compact('producto'));
         else return 'no se encontro';
+    }
 
+    public function buscar($productoId){
+        $producto = Producto::find($productoId);
+
+
+        if(isset($producto))
+             return response(new ProductoResource($producto));
+        else return null;
     }
     /**
      * Show the form for editing the specified resource.
