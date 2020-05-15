@@ -2032,11 +2032,9 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     registrarVenta: function registrarVenta() {
-      axios.post('/api/venta/store', [], {
-        headers: {
-          'Authorization': 'Bearer ' + token
-        }
-      }).then(alert('Venta exitosa'));
+      axios.post('/api/venta/store').then(function (response) {
+        console.log(response.data);
+      });
     }
   }
 });
@@ -50166,11 +50164,17 @@ module.exports = function(module) {
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-window.axios.defaults.headers.common = {
-  'X-Requested-With': 'XMLHttpRequest',
-  'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+/*window.axios.defaults.headers.common = {
+    'X-Requested-With': 'XMLHttpRequest',
 };
+*/
+
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+var csrfToken = document.querySelector('[name="csrf-token"]');
+
+if (csrfToken) {
+  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken.content;
+}
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -50180,6 +50184,7 @@ window.axios.defaults.headers.common = {
  */
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+
 
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
 Vue.component('agregar-producto', __webpack_require__(/*! ./components/AgregarProducto.vue */ "./resources/js/components/AgregarProducto.vue")["default"]);

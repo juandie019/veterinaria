@@ -19,4 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/producto/buscar', 'ProductoController@buscar')->name('producto.buscar');
-Route::post('/venta/store', 'VentaController@store')->middleware(['auth']);
+Route::post('/venta/store', 'VentaController@store')->middleware(['auth:api']);

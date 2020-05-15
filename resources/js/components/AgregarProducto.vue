@@ -128,9 +128,9 @@
           },
 
           registrarVenta(){
-              axios.post('/api/venta/store',[], {headers: { 'Authorization' : 'Bearer '+ token}})
-              .then(
-                  alert('Venta exitosa')
+              axios.post('/api/venta/store')
+              .then(response => {console.log(response.data)
+                                }
               )
           }
         }

@@ -36,14 +36,14 @@ class VentaController extends Controller
      */
     public function store(Request $request)
     {
-
-       $venta = new Venta();
-       $venta->folio = $request['folio'];
-       $venta->id_cliente = $request['id_cliente'];
-       $venta->id_empleado = auth()->user()->empleado->id;
-       $venta->total_productos = $request['total_productos'];
-       $venta->total_pagado = $request['total'];
-       $venta->Save();
+return response(['message' => 'ya jalo']);
+    //    $venta = new Venta();
+    //    $venta->folio = $request['folio'];
+    //    $venta->id_cliente = $request['id_cliente'];
+    //    $venta->id_empleado = auth()->user()->empleado->id;
+    //    $venta->total_productos = $request['total_productos'];
+    //    $venta->total_pagado = $request['total'];
+    //    $venta->Save();
 
     }
 
