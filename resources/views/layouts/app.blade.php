@@ -34,39 +34,48 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         @auth
-                            @can('create', App\Empleado::class)
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('empleado.create') }}">{{ __('Agregar empelado') }}</a>
-                                </li>
-                            @endcan
-                            @can('viewAny', App\Empleado::class)
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('empleado.index') }}">{{ __('Ver empelados') }}</a>
-                                </li>
-                            @endcan
-                            @can('create', App\Cliente::class)
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('cliente.create') }}">{{ __('Agregar cliente') }}</a>
-                                </li>
-                            @endcan
-                            @can('viewAny', App\Cliente::class)
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('cliente.index') }}">{{ __('Ver clientes') }}</a>
-                                </li>
-                            @endcan
-                            @can('create', App\Producto::class)
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('producto.create') }}">{{ __('Agregar producto') }}</a>
-                                </li>
-                            @endcan
-                            @can('viewAny', App\Producto::class)
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('producto.index') }}">{{ __('Ver productos') }}</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('venta.create') }}">{{ __('Hacer venta') }}</a>
-                                </li>
-                            @endcan
+                            @if (isset(Auth::user()->empleado))
+                                @can('create', App\Empleado::class)
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('empleado.create') }}">{{ __('Agregar empelado') }}</a>
+                                    </li>
+                                @endcan
+                                @can('viewAny', App\Empleado::class)
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('empleado.index') }}">{{ __('Ver empelados') }}</a>
+                                    </li>
+                                @endcan
+                                @can('create', App\Cliente::class)
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('cliente.create') }}">{{ __('Agregar cliente') }}</a>
+                                    </li>
+                                @endcan
+                                @can('viewAny', App\Cliente::class)
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('cliente.index') }}">{{ __('Ver clientes') }}</a>
+                                    </li>
+                                @endcan
+                                @can('create', App\Producto::class)
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('producto.create') }}">{{ __('Agregar producto') }}</a>
+                                    </li>
+                                @endcan
+                                @can('viewAny', App\Producto::class)
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('producto.index') }}">{{ __('Ver productos') }}</a>
+                                    </li>
+                                @endcan
+                                @can('create', App\Venta::class)
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('venta.create') }}">{{ __('Hacer venta') }}</a>
+                                    </li>
+                                @endcan
+                                @can('viewAny', App\Venta::class)
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('venta.index') }}">{{ __('Ver ventas') }}</a>
+                                    </li>
+                                @endcan
+                            @endif
                         @endauth
                     </ul>
 

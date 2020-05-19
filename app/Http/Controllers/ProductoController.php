@@ -19,11 +19,11 @@ class ProductoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($mensaje = "")
     {
         $productos = Producto::orderBy('created_at', 'desc')->get();
 
-        return view('productos.index', compact('productos'));
+        return view('productos.index', compact('productos', 'mensaje'));
     }
 
     /**
@@ -115,8 +115,41 @@ class ProductoController extends Controller
      */
     public function update(Request $request, Producto $producto)
     {
-        //
     }
+
+    public function actualizarAlmacen(Request $request){
+        $producto = Producto::find($request['id_producto']);
+
+        $mensaje = "No se encontro el producto con Id: " . $request['id_producto'];
+
+        if(isset($producto)){
+            $total = $producto -> existencia_almacen;
+
+            if($request['boton'] == "Agregar")
+                $total += $request['cantidad'];
+            else $total -= $request['cantidad'];
+                $producto->existencia_almacen = $total;
+
+            $producto->save();
+            $mensaje = "Se actualizo " . $producto -> nombre;
+        }
+        return view('productos.create', compact('mensaje'));
+    }
+
+    public function actualizarPiso(Request $request){
+        $producto = Producto::find($request['id_producto']);
+
+        $mensaje = "No se encontro el producto con Id: " . $request['id_producto'];
+
+        if(isset($producto)){
+          $producto -> existencia_almacen -= $request['cantidad'];
+          $producto -> existencia_piso += $request['cantidad'];
+          $producto->save();
+          $mensaje = "Se agrego a piso " . $producto -> nombre;
+        }
+        return $this->index($mensaje);
+    }
+
 
     /**
      * Remove the specified resource from storage.

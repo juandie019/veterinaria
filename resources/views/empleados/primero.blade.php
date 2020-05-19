@@ -5,10 +5,16 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Registrar empleado') }}</div>
+                <div class="card-header">{{ __('Registrar gerente') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action = "/empleado">
+                        <div class="text-primary">
+                            <p>
+                               Este registro pertenece al gerente de la veterinaria. Es muy importante
+                               terminarlo para comenzar a admistrar el sistema.
+                            </p>
+                        </div>
+                    <form method="POST" action = "/empleado/{{$id_empleado}}/primero">
                         @csrf
 
                         <div class="form-group row">
@@ -18,24 +24,6 @@
                                 <input id="nombre" type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre" value="{{ old('nombre') }}" required autocomplete="name" autofocus>
 
                                 @error('nombre')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="puesto_id" class="col-md-4 col-form-label text-md-right">{{ __('Puesto') }}</label>
-
-                            <div class="col-md-6">
-
-                                <select name="puesto_id" id="pueso" class="form-control" required>
-                                    @foreach ($puestos as $puesto)
-                                      <option value={{$puesto->id}}>{{$puesto->nombre}}</option>
-                                    @endforeach
-                                </select>
-                                @error('puesto_id')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -70,6 +58,7 @@
                                 @enderror
                             </div>
                         </div>
+
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">

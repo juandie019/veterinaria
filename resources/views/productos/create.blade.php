@@ -6,7 +6,6 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Registrar producto') }}</div>
-
                 <div class="card-body">
                     <form method="POST" action = "/producto">
                         @csrf
@@ -133,7 +132,41 @@
                         </div>
                     </form>
                 </div>
+                <div class="card-footer">
+                    <form method="POST" action = "/producto/actualizar_almacen">
+                      @csrf
+                        <div class="row">
+                            <div class="col-md-3 ">
+                                Agregar a almacen
+                            </div>
+                            <div class="col-md-3  offset-md-2">
+                                <input id="id_producto" type="text" class="form-control @error('id_producto') is-invalid @enderror" name="id_producto" value="{{ old('id_producto') }}" placeholder="ID de producto" required autocomplete="id_producto" autofocus>
+                                @error('id_producto')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+
+                            </div>
+                            <div class="col-md-2">
+                                <input id="cantidad" type="text" class="form-control @error('cantidad') is-invalid @enderror" name="cantidad" value="{{ old('cantidad') }}" required placeholder="Cantidad" autocomplete="cantidad" autofocus>
+                                @error('cantidad')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+
+                            </div>
+                            <div class="col-md-2">
+                                <input type="submit" name = "boton" value = "Agregar" class="btn btn-primary">
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
+            @if(isset($mensaje))
+            <p class="alert alert-success" role="alert">{{$mensaje}}</p>
+            @endif
         </div>
     </div>
 </div>

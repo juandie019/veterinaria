@@ -7,8 +7,9 @@
                         <div class="col-md-12">
                             <div  @submit.prevent = "buscarProducto()">
                                 <div class="row">
-                                    <div class ="col-md-3">
-                                        {{'Ventas'}}
+                                    <div class ="col-md-3 form-inline text-primary">
+                                        <div class="text-left">Folio:</div>
+                                       <div v-text="folio" class="text-right"></div>
                                     </div>
                                     <div class="col-md-4">
                                         <input type="text" v-model="id_producto" class="form-control" name="id_producto"  required autocomplete="id_producto" autofocus placeholder="Id de producto">
@@ -58,7 +59,6 @@
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-md-12">
-                            <form method="Post" action = "/cliente/search">
                                 <div class="row">
                                     <div class="col-md-2">
                                         <input type="text" class="form-control" name="id_cliente" required autocomplete="id_cliente" autofocus placeholder="Id de Cliente">
@@ -68,13 +68,10 @@
                                           Buscar cliente
                                         </button>
                                     </div>
-                               </div>
-                            </form>
                                     <div class="col-md-2 offset-md-6">
                                         <input type="submit" class="btn btn-primary form-control" @click = "registrarVenta" value="Finalizar Venta">
                                     </div>
-
-
+                               </div>
                         </div>
                     </div>
                 </div>
@@ -85,6 +82,9 @@
 
 <script>
     export default {
+
+        props: ['folioAux'],
+
         data(){
             return{
                 id_producto: '1010',
@@ -92,13 +92,15 @@
                 total: 0,
                 total_productos: 0,
                 productos: [],
-                id_cliente: 'publico'
+                id_cliente: 'publico',
+                folio: ''
             }
         },
 
 
         mounted() {
             console.log('Component mounted.')
+            this.folio = this.folioAux;
         },
 
         methods: {
@@ -108,7 +110,8 @@
              axios.post('/producto/' + this.id_producto)
              .then(response => {
                     if(response.data == ""){
-                        alert('No se encontro')
+                        swal("No se encontro el producto", "ID: " + this.id_producto, "error");
+                        this.id_producto = '';
                     }else{
                         this.productos.push({
                             id_producto: response.data['id_producto'],
@@ -128,10 +131,22 @@
           },
 
           registrarVenta(){
-              axios.post('/api/venta/store')
-              .then(response => {console.log(response.data)
-                                }
-              )
+              axios.post('/api/venta/store',
+              {data:{lista:this.productos, id_cliente:this.id_cliente,
+               cantidad:this.total_productos, total:this.total, folio:this.folio}
+              })
+              .then(response => {
+                  //recuperar errores
+                  swal("Venta registrada", "Con Exito", "success");
+
+                  this.folio = response.data;
+                  this.productos = [];
+                  this.cliente = 'publico';
+                  this.cantidad = '1';
+                  this.total_productos = '0';
+                  this.total = '0';
+                  this.id_producto = '';
+               })
           }
         }
 

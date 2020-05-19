@@ -60,7 +60,7 @@
                       @csrf
                         <div class="row">
                             <div class="col-md-3 ">
-                                Mover a piso
+                                Buscar por cliente
                             </div>
                             <div class="col-md-3  offset-md-2">
                                 <input id="id_producto" type="text" class="form-control @error('id_producto') is-invalid @enderror" name="id_producto" value="{{ old('id_producto') }}" placeholder="ID de producto" required autocomplete="id_producto" autofocus>
@@ -87,9 +87,6 @@
                     </form>
                 </div>
             </div>
-            @if(isset($mensaje) && $mensaje != "")
-            <p class="alert alert-success" role="alert">{{$mensaje}}</p>
-            @endif
         </div>
     </div>
 </div>

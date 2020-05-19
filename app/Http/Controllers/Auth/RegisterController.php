@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
+use App\UsuarioDisponible;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -49,11 +50,15 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+
+        $messages = [
+            'exists' => 'Parece que no estas registrado como empleado, si no tienes tu ID de empleado consulta con el gerente',
+        ];
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'id_empleado' => ['exists:usuario_disponibles,id_empleado'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        ],$messages);
     }
 
     /**
@@ -64,20 +69,10 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-    //   $user = new User();
-    //   $user->name = $data['name'];
-    //   $user->email = $data['email'];
-    //   $user->id_empleado = $data['id_empleado'];
-    //   $user->password = Hash::make($data['password']);
-    //   $user->save();
-
-    //   return $user;
-
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'id_empleado' => $data['id_empleado'],
-            'password' => Hash::make($data['password']),
-        ]);
+            return User::create([
+                'email' => $data['email'],
+                'id_empleado' => $data['id_empleado'],
+                'password' => Hash::make($data['password']),
+            ]);
     }
 }

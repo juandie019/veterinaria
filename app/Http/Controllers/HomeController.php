@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\User;
 class HomeController extends Controller
 {
     /**
@@ -23,6 +23,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $id_empleado = auth()->user()->id_empleado;
+
+        if(isset(auth()->user()->empleado)){
+            if(auth()->user()->empleado->esCajero())
+              return redirect()->route('venta.create');
+            else if(auth()->user()->empleado->esAlmacenista())
+              return redirect()->route('producto.index');
+            else if(auth()->user()->empleado->esGerente())
+              return redirect()->route('empleado.index');
+        }else
+            return view('empleados.primero', compact('id_empleado'));
     }
 }

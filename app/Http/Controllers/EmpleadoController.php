@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Empleado;
 use App\Puesto;
+use App\UsuarioDisponible;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -43,8 +44,10 @@ class EmpleadoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id_empleado = "")
     {
+        if($id_empleado == "") //si no recibimos el id lo generamos
+            $id_empleado = $this->generarId($request);
 
         $request->validate([
           'nombre' => 'required',
@@ -56,14 +59,29 @@ class EmpleadoController extends Controller
         $empleado = new Empleado();
 
         $empleado -> nombre = $request['nombre'];
-        $empleado-> id_empleado = $request['id_empleado'];
+        $empleado-> id_empleado =$id_empleado;
         $empleado -> puesto_id = $request['puesto_id'];
         $empleado -> fecha_contrato = $request['fecha'];
         $empleado -> sueldo_diario = $request['sueldo'];
         $empleado -> save();
+
+        $this->guardarId($id_empleado);
         return redirect()->route('empleado.index');
     }
 
+    public function generarId($datos)
+    { //terminar esta funcion
+       $empleado_id =+ $datos['puesto_id'];
+       $empleado_id += $datos['sueldo'];
+
+       return $empleado_id;
+    }
+
+    public function guardarId($id_empleado){
+        $usuario = new UsuarioDisponible();
+        $usuario->id_empleado = $id_empleado;
+        $usuario->save();
+    }
     /**
      * Display the specified resource.
      *
@@ -100,6 +118,12 @@ class EmpleadoController extends Controller
     public function edit(Empleado $empleado)
     {
         //
+    }
+
+    public function primerEmpleado(Request $request, $id_empleado){
+         $request['puesto_id'] = "3";
+
+         return $this-> store($request, $id_empleado);
     }
 
     /**

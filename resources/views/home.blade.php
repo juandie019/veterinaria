@@ -13,8 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    Este es un espacio para recordatorios
+                   Vamos a comenzar por terminar de llenar tus datos
                 </div>
             </div>
         </div>
