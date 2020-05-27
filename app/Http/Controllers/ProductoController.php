@@ -21,6 +21,8 @@ class ProductoController extends Controller
      */
     public function index($mensaje = "")
     {
+        $this->authorize('viewAny',Producto::class);
+
         $productos = Producto::orderBy('created_at', 'desc')->paginate(9);
 
         return view('productos.index', compact('productos', 'mensaje'));
@@ -33,6 +35,8 @@ class ProductoController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Producto::class);
+
         return view('productos.create');
     }
 

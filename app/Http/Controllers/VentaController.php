@@ -19,6 +19,8 @@ class VentaController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny',Venta::class);
+
        $ventas = Venta::orderBy('created_at', 'desc')->paginate(9);
        return view('ventas.index', compact('ventas'));
     }
@@ -30,6 +32,8 @@ class VentaController extends Controller
      */
     public function create()
     {
+        $this->authorize('create',Venta::class);
+
         $last_id = $this->generarFolio();
 
         return view("ventas.create", compact('last_id'));

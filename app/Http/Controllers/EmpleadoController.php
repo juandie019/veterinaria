@@ -23,6 +23,8 @@ class EmpleadoController extends Controller
 
     public function index()
     {
+        $this->authorize('viewAny',Empleado::class);
+
         $empleados = Empleado::with('puesto')->orderBy('created_at', 'desc')->get();//eagerloading
         return view("empleados.index", compact('empleados'));
     }
@@ -34,6 +36,8 @@ class EmpleadoController extends Controller
      */
     public function create()
     {
+        $this->authorize('create',Empleado::class);
+
         $puestos = Puesto::all();
 
         return View('empleados.create', compact('puestos'));
