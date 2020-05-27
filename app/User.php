@@ -2,10 +2,14 @@
 
 namespace App;
 
+use App\Mail\WelcomeEmail;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
+
 
 class User extends Authenticatable
 {
@@ -41,5 +45,21 @@ class User extends Authenticatable
     public function empleado()
     {
        return $this->hasOne(Empleado::class, 'id_empleado', 'id_empleado');
+    }
+
+    public function file(){
+        return $this->belongsTo(File::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($user){
+          Mail::to($user->email)->send(new WelcomeEmail());
+
+          DB::table('usuario_disponibles')->where('id_empleado', 'LIKE', $user->id_empleado)->delete();
+        });
+
     }
 }

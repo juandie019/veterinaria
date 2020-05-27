@@ -5,7 +5,6 @@
                 <div class="card">
                     <div class="card-header">Example</div>
                     <div class="card-body">
-                        Actualizate maltido
                     </div>
                 </div>
             </div>

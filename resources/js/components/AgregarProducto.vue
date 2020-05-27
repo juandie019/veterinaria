@@ -36,6 +36,9 @@
                                         <th>Precio</th>
                                         <th>Cantidad</th>
                                         <th>Total</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tr v-for="(producto, index) in productos" :key="index">
@@ -44,6 +47,12 @@
                                     <td>{{producto['precio']}}</td>
                                     <td>{{producto['cantidad']}}</td>
                                     <td>{{producto['total']}}</td>
+                                    <td>
+                                           <button style="float: right" class="btn btn-secondary button-small mr-0">-</button>
+                                    </td>
+                                     <td>
+                                           <button style="float: rigth" class="btn btn-secondary button-small ml-0">+</button>
+                                    </td>
                                 </tr>
                                 <tr class="table-info">
                                     <th></th>
@@ -51,6 +60,9 @@
                                     <th>Total</th>
                                     <th>{{this.total_productos}}</th>
                                     <th>{{this.total}}</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
                             </table>
                         </div>
@@ -61,10 +73,10 @@
                         <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control" name="id_cliente" required autocomplete="id_cliente" autofocus placeholder="Id de Cliente">
+                                        <input type="text" v-model="id_cliente" class="form-control" name="id_cliente" required autocomplete="id_cliente" autofocus placeholder="Id de Cliente">
                                     </div>
                                     <div class="col-md-2">
-                                        <button type="submit" class="btn btn-primary form-control">
+                                        <button type="submit" class="btn btn-primary form-control" @click="buscarCliente">
                                           Buscar cliente
                                         </button>
                                     </div>
@@ -81,18 +93,20 @@
 </template>
 
 <script>
+//no alcance a terminar los botones mas menos :(
     export default {
 
         props: ['folioAux'],
 
         data(){
             return{
-                id_producto: '1010',
+                id_producto: '',
                 cantidad: '1',
                 total: 0,
                 total_productos: 0,
                 productos: [],
-                id_cliente: 'publico',
+                id_cliente: '',
+                id_cliente_real: '',
                 folio: ''
             }
         },
@@ -107,12 +121,18 @@
           buscarProducto(){
             console.log(this.id_producto + " " + this.cantidad);
 
-             axios.post('/producto/' + this.id_producto)
+             axios.post('/api/producto/' + this.id_producto,{cantidad:this.cantidad})
              .then(response => {
-                    if(response.data == ""){
+                   //console.log(response.data['noSuficiente'])
+
+                    if(response.data['noFound']){
                         swal("No se encontro el producto", "ID: " + this.id_producto, "error");
                         this.id_producto = '';
-                    }else{
+                    }else if(response.data['noSuficiente']){
+                        swal("No suficiente en stock", "Cantidad disponible: " + response.data['cantidad'], "error");
+                        this.cantidad = '1';
+                    }
+                    else{
                         this.productos.push({
                             id_producto: response.data['id_producto'],
                             nombre: response.data['nombre'],
@@ -120,7 +140,7 @@
                             cantidad: this.cantidad,
                             total: response.data['precio'] * this.cantidad
                         })
-
+                        this.id_producto = '';
                         this.total += response.data['precio'] * this.cantidad;
                         this.total_productos += parseInt(this.cantidad);
                     }
@@ -132,7 +152,7 @@
 
           registrarVenta(){
               axios.post('/api/venta/store',
-              {data:{lista:this.productos, id_cliente:this.id_cliente,
+              {data:{lista:this.productos, id_cliente:this.id_cliente_real,
                cantidad:this.total_productos, total:this.total, folio:this.folio}
               })
               .then(response => {
@@ -141,12 +161,30 @@
 
                   this.folio = response.data;
                   this.productos = [];
-                  this.cliente = 'publico';
+                  this.cliente = '';
                   this.cantidad = '1';
-                  this.total_productos = '0';
-                  this.total = '0';
+                  this.total_productos = 0;
+                  this.total = 0;
                   this.id_producto = '';
+                  this.cupon = false
                })
+          },
+
+          buscarCliente(){
+              axios.post('/api/cliente/' + this.id_cliente)
+              .then(response=>{
+                  this.id_cliente_real = this.id_cliente;
+                  if(response.data['noFound']){
+                      this.id_cliente_real = '';
+                      swal("No se encontro el cliente", this.id_cliente , "error");
+                  }
+                  else if(response.data['cupon']){
+                      swal("Se aplico un cupon","", "success");
+                      this.cupon = true;
+                      this.total -= this.total * .10
+                  }
+                  else swal("No hay cupones",);
+              })
           }
         }
 

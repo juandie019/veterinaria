@@ -54,6 +54,7 @@
                             @endforeach
                        </table>
                    </div>
+                   {{ $productos->links() }}
                 </div>
                 <div class="card-footer">
                     <form method="POST" action = "/producto/actualizar_piso">

@@ -1,7 +1,4 @@
 // agregar polices a los controladores
-//descargar vetur
-//de los search cambiar de post a get
-//enviar msj con id_empleado
-//hacer 0 default en piso y almacen
-//return back()->withInput hacer esto para las busquedas
---pilices en los controladores
+//random(1000); para el el usuariorr
+
+//no inclui softdeletes pero agregue pagination que en dificultad es parecido

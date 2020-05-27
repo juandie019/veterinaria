@@ -15,10 +15,10 @@ class CreateClientesTable extends Migration
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('nombre');
-            $table->bigInteger('numero_celular')->unique();
-            $table->string('correo');
-            $table->string('rfc');
+            $table->string('nombre')->nullable()->default("Desconocido");
+            $table->string('numero_celular')->unique();
+            $table->string('correo')->nullable();
+            $table->string('rfc')->nullable();
             $table->timestamps();
         });
     }

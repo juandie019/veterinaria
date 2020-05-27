@@ -1,0 +1,28 @@
+Proyecto Final
+El objetivo es que experimenten desarrollar un sistema pensando como un full stack developer, es decir que diseñen tanto el backend (base de datos, relaciones, validaciones), así como el frontend (vistas, html, js, css) y con ello lograr un sistema que brinde una buena experiencia de uso al usuario final.
+
+
+Implementar al menos un CRUD (Resource Controller).
+
+
+Relaciones
+La información almacenada deberá estar relacionada:
+Muchos a muchos (m:n).
+Crear una relación con más de un modelo (Polimórfica).
+
+
+Carga de archivos, uno o muchos a la vez.
+Eliminar o reemplazar archivos.
+
+
+
+
+Extras
+Implementar cualquiera de los siguiente temas les brindará puntos adicionales, los temas se encuentran en lo que considero en orden de dificultad, del más sencillo al más complejo, no por su dificultad sino porque hay que leer más documentación específica.
+
+Relación muchos a muchos con información particular a la relación (información adicional en tabla pivote).
+Generar documento pdf, excel, word, etc.
+Programación de tareas recurrentes (Task Scheduling).
+Creación de colas de tareas (Jobs).
+Autenticación mediante credenciales de terceros (google, twitter, facebook, github).
+Implementar sistema de pago.

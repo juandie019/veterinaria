@@ -15,7 +15,7 @@
                             <label for="nombre" class="col-md-4 col-form-label text-md-right">{{ __('Nombre') }}</label>
 
                             <div class="col-md-6">
-                                <input id="nombre" type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre" value="{{ old('nombre') }}" required autocomplete="nombre" autofocus>
+                                <input id="nombre" type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre" value="{{ old('nombre') }}"  autocomplete="nombre" autofocus>
 
                                 @error('nombre')
                                     <span class="invalid-feedback" role="alert">
@@ -29,7 +29,7 @@
                             <label for="numero_celular" class="col-md-4 col-form-label text-md-right">{{ __('Telefono') }}</label>
 
                             <div class="col-md-6">
-                                <input id="numero_celular" type="text" class="form-control @error('numero_celular') is-invalid @enderror" name="numero_celular" value="{{ old('numero_celular') }}" autocomplete="numero_celular" autofocus>
+                                <input id="numero_celular" type="text" class="form-control @error('numero_celular') is-invalid @enderror" name="numero_celular" value="{{ old('numero_celular') }}" required autocomplete="numero_celular" autofocus>
 
                                 @error('numero_celular')
                                     <span class="invalid-feedback" role="alert">
@@ -57,7 +57,7 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Correo') }}</label>
 
                             <div class="col-md-6">
-                                <input id="correo" type="text" class="form-control @error('correo') is-invalid @enderror" name="correo" value="{{ old('correo') }}" required autocomplete="correo">
+                                <input id="correo" type="text" class="form-control @error('correo') is-invalid @enderror" name="correo" value="{{ old('correo') }}" autocomplete="correo">
 
                                 @error('correo')
                                     <span class="invalid-feedback" role="alert">

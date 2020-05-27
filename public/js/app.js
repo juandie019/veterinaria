@@ -1990,16 +1990,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//no alcance a terminar los botones mas menos :(
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['folioAux'],
   data: function data() {
     return {
-      id_producto: '1010',
+      id_producto: '',
       cantidad: '1',
       total: 0,
       total_productos: 0,
       productos: [],
-      id_cliente: 'publico',
+      id_cliente: '',
+      id_cliente_real: '',
       folio: ''
     };
   },
@@ -2012,10 +2026,16 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       console.log(this.id_producto + " " + this.cantidad);
-      axios.post('/producto/' + this.id_producto).then(function (response) {
-        if (response.data == "") {
+      axios.post('/api/producto/' + this.id_producto, {
+        cantidad: this.cantidad
+      }).then(function (response) {
+        //console.log(response.data['noSuficiente'])
+        if (response.data['noFound']) {
           swal("No se encontro el producto", "ID: " + _this.id_producto, "error");
           _this.id_producto = '';
+        } else if (response.data['noSuficiente']) {
+          swal("No suficiente en stock", "Cantidad disponible: " + response.data['cantidad'], "error");
+          _this.cantidad = '1';
         } else {
           _this.productos.push({
             id_producto: response.data['id_producto'],
@@ -2025,6 +2045,7 @@ __webpack_require__.r(__webpack_exports__);
             total: response.data['precio'] * _this.cantidad
           });
 
+          _this.id_producto = '';
           _this.total += response.data['precio'] * _this.cantidad;
           _this.total_productos += parseInt(_this.cantidad);
         }
@@ -2038,7 +2059,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/api/venta/store', {
         data: {
           lista: this.productos,
-          id_cliente: this.id_cliente,
+          id_cliente: this.id_cliente_real,
           cantidad: this.total_productos,
           total: this.total,
           folio: this.folio
@@ -2048,11 +2069,28 @@ __webpack_require__.r(__webpack_exports__);
         swal("Venta registrada", "Con Exito", "success");
         _this2.folio = response.data;
         _this2.productos = [];
-        _this2.cliente = 'publico';
+        _this2.cliente = '';
         _this2.cantidad = '1';
-        _this2.total_productos = '0';
-        _this2.total = '0';
+        _this2.total_productos = 0;
+        _this2.total = 0;
         _this2.id_producto = '';
+        _this2.cupon = false;
+      });
+    },
+    buscarCliente: function buscarCliente() {
+      var _this3 = this;
+
+      axios.post('/api/cliente/' + this.id_cliente).then(function (response) {
+        _this3.id_cliente_real = _this3.id_cliente;
+
+        if (response.data['noFound']) {
+          _this3.id_cliente_real = '';
+          swal("No se encontro el cliente", _this3.id_cliente, "error");
+        } else if (response.data['cupon']) {
+          swal("Se aplico un cupon", "", "success");
+          _this3.cupon = true;
+          _this3.total -= _this3.total * .10;
+        } else swal("No hay cupones");
       });
     }
   }
@@ -2069,7 +2107,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
 //
 //
 //
@@ -37877,7 +37914,11 @@ var render = function() {
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(producto["cantidad"]))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(producto["total"]))])
+                      _c("td", [_vm._v(_vm._s(producto["total"]))]),
+                      _vm._v(" "),
+                      _vm._m(1, true),
+                      _vm._v(" "),
+                      _vm._m(2, true)
                     ])
                   }),
                   _vm._v(" "),
@@ -37890,7 +37931,13 @@ var render = function() {
                     _vm._v(" "),
                     _c("th", [_vm._v(_vm._s(this.total_productos))]),
                     _vm._v(" "),
-                    _c("th", [_vm._v(_vm._s(this.total))])
+                    _c("th", [_vm._v(_vm._s(this.total))]),
+                    _vm._v(" "),
+                    _c("th"),
+                    _vm._v(" "),
+                    _c("th"),
+                    _vm._v(" "),
+                    _c("th")
                   ])
                 ],
                 2
@@ -37903,9 +37950,52 @@ var render = function() {
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-12" }, [
               _c("div", { staticClass: "row" }, [
-                _vm._m(1),
+                _c("div", { staticClass: "col-md-2" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.id_cliente,
+                        expression: "id_cliente"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: {
+                      type: "text",
+                      name: "id_cliente",
+                      required: "",
+                      autocomplete: "id_cliente",
+                      autofocus: "",
+                      placeholder: "Id de Cliente"
+                    },
+                    domProps: { value: _vm.id_cliente },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.id_cliente = $event.target.value
+                      }
+                    }
+                  })
+                ]),
                 _vm._v(" "),
-                _vm._m(2),
+                _c("div", { staticClass: "col-md-2" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary form-control",
+                      attrs: { type: "submit" },
+                      on: { click: _vm.buscarCliente }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                      Buscar cliente\n                                    "
+                      )
+                    ]
+                  )
+                ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "col-md-2 offset-md-6" }, [
                   _c("input", {
@@ -37937,7 +38027,13 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Cantidad")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Total")])
+        _c("th", [_vm._v("Total")]),
+        _vm._v(" "),
+        _c("th"),
+        _vm._v(" "),
+        _c("th"),
+        _vm._v(" "),
+        _c("th")
       ])
     ])
   },
@@ -37945,36 +38041,29 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-2" }, [
-      _c("input", {
-        staticClass: "form-control",
-        attrs: {
-          type: "text",
-          name: "id_cliente",
-          required: "",
-          autocomplete: "id_cliente",
-          autofocus: "",
-          placeholder: "Id de Cliente"
-        }
-      })
+    return _c("td", [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary button-small mr-0",
+          staticStyle: { float: "right" }
+        },
+        [_vm._v("-")]
+      )
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-2" }, [
+    return _c("td", [
       _c(
         "button",
         {
-          staticClass: "btn btn-primary form-control",
-          attrs: { type: "submit" }
+          staticClass: "btn btn-secondary button-small ml-0",
+          staticStyle: { float: "rigth" }
         },
-        [
-          _vm._v(
-            "\n                                      Buscar cliente\n                                    "
-          )
-        ]
+        [_vm._v("+")]
       )
     ])
   }
@@ -38013,11 +38102,7 @@ var staticRenderFns = [
           _c("div", { staticClass: "card" }, [
             _c("div", { staticClass: "card-header" }, [_vm._v("Example")]),
             _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _vm._v(
-                "\n                    Actualizate maltido\n                "
-              )
-            ])
+            _c("div", { staticClass: "card-body" })
           ])
         ])
       ])

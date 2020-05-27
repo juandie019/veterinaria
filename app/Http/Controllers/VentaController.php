@@ -7,6 +7,7 @@ use App\VentaDetallada;
 use App\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
 class VentaController extends Controller
 {
 
@@ -17,7 +18,8 @@ class VentaController extends Controller
      */
     public function index()
     {
-        //
+       $ventas = Venta::orderBy('created_at', 'desc')->paginate(9);
+       return view('ventas.index', compact('ventas'));
     }
 
     /**
@@ -66,6 +68,7 @@ class VentaController extends Controller
     public function storeVentaDetallada($productoAux, $folio_venta){
       $producto = Producto::find($productoAux['id_producto']);
 
+      $producto->reducir_piso($productoAux['cantidad']);
 
       $ventaD = new VentaDetallada();
       $ventaD->folio_venta = $folio_venta;
@@ -82,9 +85,11 @@ class VentaController extends Controller
      * @param  \App\Venta  $venta
      * @return \Illuminate\Http\Response
      */
-    public function show(Venta $venta)
+    public function show($venta_id)
     {
-        //
+        $ventaGeneral = Venta::find($venta_id);
+        $ventasD = $ventaGeneral->ventas_detalladas;
+        return view('ventas.show', compact('ventasD', 'ventaGeneral'));
     }
 
     /**

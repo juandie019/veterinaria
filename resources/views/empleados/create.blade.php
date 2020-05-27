@@ -15,7 +15,7 @@
                             <label for="nombre" class="col-md-4 col-form-label text-md-right">{{ __('Nombre') }}</label>
 
                             <div class="col-md-6">
-                                <input id="nombre" type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre" value="{{ old('nombre') }}" required autocomplete="name" autofocus>
+                                <input id="nombre" type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre" value="{{ old('nombre') }}" required autocomplete="nombre" autofocus>
 
                                 @error('nombre')
                                     <span class="invalid-feedback" role="alert">
@@ -35,6 +35,7 @@
                                       <option value={{$puesto->id}}>{{$puesto->nombre}}</option>
                                     @endforeach
                                 </select>
+
                                 @error('puesto_id')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -44,10 +45,10 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="sueldo" class="col-md-4 col-form-label text-md-right">{{ __('Sueldo por dia') }}</label>
+                            <label for="sueldo" class="col-md-4 col-form-label text-md-right">{{ __('Sueldo') }}</label>
 
                             <div class="col-md-6">
-                                <input id="sueldo" type="text" class="form-control @error('sueldo') es-invalido @enderror" name="sueldo" value="{{ old('sueldo') }}" autocomplete="Sueldo" autofocus>
+                                <input id="sueldo" type="text" class="form-control @error('sueldo') is-invalid @enderror" name="sueldo" value="{{ old('sueldo') }}" required autocomplete="sueldo" autofocus>
 
                                 @error('sueldo')
                                     <span class="invalid-feedback" role="alert">
@@ -58,10 +59,10 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="fecha" class="col-md-4 col-form-label text-md-right">{{ __('Fecha contratacion') }}</label>
+                            <label for="fecha" class="col-md-4 col-form-label text-md-right">{{ __('Fecha') }}</label>
 
                             <div class="col-md-6">
-                                <input id="fecha" type="text" class="form-control @error('fecha') es-invalido @enderror" name="fecha" value="{{ old('fecha') }}" autocomplete="Fecha" autofocus>
+                                <input id="fecha" type="date" class="form-control @error('fecha') is-invalid @enderror" name="fecha" value="{{ old('fecha') }}"  autocomplete="fecha" autofocus>
 
                                 @error('fecha')
                                     <span class="invalid-feedback" role="alert">

@@ -7,6 +7,7 @@ use App\Puesto;
 use App\UsuarioDisponible;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class EmpleadoController extends Controller
 {
@@ -22,7 +23,7 @@ class EmpleadoController extends Controller
 
     public function index()
     {
-        $empleados = Empleado::orderBy('created_at', 'desc')->get();
+        $empleados = Empleado::with('puesto')->orderBy('created_at', 'desc')->get();//eagerloading
         return view("empleados.index", compact('empleados'));
     }
 
@@ -46,15 +47,16 @@ class EmpleadoController extends Controller
      */
     public function store(Request $request, $id_empleado = "")
     {
+
+        $message = $request->validate([
+            'nombre' => 'required',
+            'puesto_id' => 'required|int',
+            'fecha' => 'date|required',
+            'sueldo' => 'int'
+            ]);
+
         if($id_empleado == "") //si no recibimos el id lo generamos
             $id_empleado = $this->generarId($request);
-
-        $request->validate([
-          'nombre' => 'required',
-          'puesto_id' => 'required',
-          'fecha' => 'date',
-          'sueldo' => 'int'
-        ]);
 
         $empleado = new Empleado();
 
@@ -82,6 +84,7 @@ class EmpleadoController extends Controller
         $usuario->id_empleado = $id_empleado;
         $usuario->save();
     }
+
     /**
      * Display the specified resource.
      *
@@ -100,14 +103,21 @@ class EmpleadoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function search(Request $request){
+
+        $messages = [
+            'exists' => 'No es encontro al empleado',
+        ];
+
+        $request-> validate([
+            'id_empleado' => 'required',
+            'id_empleado' => 'exists:empleados,id_empleado',
+        ], $messages);
+
         $empleado = Empleado::where('id_empleado','LIKE',$request['id_empleado'])->get();
 
         $user = User::where('id','LIKE','1')->get();
 
         $puesto = User::find(1)->empleado->puesto->nombre;
-
-
-        dd($puesto);
 
         if(count($empleado) > 0)
              return view('empleados.show', compact('empleado'));
@@ -122,6 +132,13 @@ class EmpleadoController extends Controller
 
     public function primerEmpleado(Request $request, $id_empleado){
          $request['puesto_id'] = "3";
+
+        //  $message = $request->validate([
+        //     'nombre' => 'required|alpha',
+        //     'puesto_id' => 'required|int',
+        //     'fecha' => 'date|required',
+        //     'sueldo' => 'int'
+        //     ]);
 
          return $this-> store($request, $id_empleado);
     }

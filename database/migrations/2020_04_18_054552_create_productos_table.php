@@ -18,12 +18,12 @@ class CreateProductosTable extends Migration
             $table->string('id_producto')->unique();
             $table->string('nombre');
             $table->integer('precio');
-            $table->string('categoria');
-            $table->string('marca');
-            $table->text('descripcion');
-            $table->string('ubicacion');
-            $table->integer('existencia_piso')->nullable();
-            $table->integer('existencia_almacen')->nullable();
+            $table->string('categoria')->nullable();
+            $table->string('marca')->nullable();
+            $table->text('descripcion')->nullable();
+            $table->string('ubicacion')->nullable();
+            $table->integer('existencia_piso')->nullable()->default(0);
+            $table->integer('existencia_almacen')->nullable()->default(0);
 
             $table->timestamps();
         });

@@ -21,7 +21,7 @@ class ProductoController extends Controller
      */
     public function index($mensaje = "")
     {
-        $productos = Producto::orderBy('created_at', 'desc')->get();
+        $productos = Producto::orderBy('created_at', 'desc')->paginate(9);
 
         return view('productos.index', compact('productos', 'mensaje'));
     }
@@ -45,9 +45,10 @@ class ProductoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'string',
+            'nombre' => 'required|',
+            'id_producto' => 'unique:productos,id_producto',
             'precio' => 'required|int',
-            'ubicacion' => 'required'
+            'cantidad' => 'nullable|int'
         ]);
 
         $producto = new Producto();
@@ -60,7 +61,7 @@ class ProductoController extends Controller
         $producto -> descripcion = $request['descripcion'];
         $producto -> ubicacion = $request['ubicacion'];
         $producto -> existencia_piso = $request['existencia_piso'];
-        $producto -> existencia_almacen = $request['cantidad'];
+        $producto -> existencia_almacen = $request['existencia_almacen'];
 
         $producto -> save();
 
@@ -79,6 +80,15 @@ class ProductoController extends Controller
     }
 
     public function search(Request $request){
+        $messages = [
+            'exists' => 'No es encontro el producto',
+        ];
+
+        $request-> validate([
+            'id_producto' => 'required',
+            'id_producto' => 'exists:productos,id_producto',
+        ], $messages);
+
 
         $producto = Producto::where('id_producto','LIKE', $request['id_producto'])->get();
 
@@ -118,7 +128,7 @@ class ProductoController extends Controller
     }
 
     public function actualizarAlmacen(Request $request){
-        $producto = Producto::find($request['id_producto']);
+        $producto = Producto::find($request['id_producto2']);
 
         $mensaje = "No se encontro el producto con Id: " . $request['id_producto'];
 

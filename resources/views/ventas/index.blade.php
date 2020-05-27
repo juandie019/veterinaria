@@ -11,10 +11,10 @@
                            @csrf
                            <div class="row">
                                 <div class ="col-md-6 ">
-                                    {{ __('Lista de Productos') }}
+                                    {{ __('Lista de Ventas') }}
                                 </div>
                                 <div class="col-md-4">
-                                    <input id="id_producto" type="text" class="form-control @error('id_producto') is-invalid @enderror" name="id_producto" value="{{ old('id_producto') }}" required autocomplete="id_producto" autofocus placeholder="Id de producto">
+                                    <input id="id_producto" type="text" class="form-control @error('id_producto') is-invalid @enderror" name="id_producto" value="{{ old('id_producto') }}" required autocomplete="id_producto" autofocus placeholder="Folio de venta">
 
                                     @error('id_producto')
                                         <span class="invalid-feedback" role="alert">
@@ -35,35 +35,38 @@
                    <div class = "table-responsive">
                        <table class = "table">
                             <tr>
-                                <th>Nombre</th>
-                                <th>ID producto</th>
-                                <th>Precio</th>
-                                <th>Marca</th>
-                                <th>Existencia en piso</th>
-                                <th>Existencia en almacen</th>
+                                <th>Folio</th>
+                                <th>Cantidad</th>
+                                <th>Cliente</th>
+                                <th>Fecha</th>
+                                <th>Total</th>
+                                <th></th>
                             </tr>
-                            @foreach ($productos as $producto)
+                            @foreach ($ventas as $venta)
                                 <tr>
-                                    <td>{{$producto->nombre}}</td>
-                                    <td>{{$producto->id_producto}}</td>
-                                    <td>{{$producto->precio}}</td>
-                                    <td>{{$producto->marca}}</td>
-                                    <td>{{$producto->existencia_piso}}</td>
-                                    <td>{{$producto->existencia_almacen}}</td>
+                                    <td>{{$venta->folio}}</td>
+                                    <td>{{$venta->total_productos}}</td>
+                                    <td>{{$venta->id_cliente}}</td>
+                                    <td>{{$venta->created_at}}</td>
+                                    <td>{{$venta->total_pagado}}</td>
+                                    <td>
+                                        <a class="button button-primary" title="Ver detalles o hacer devolucion de la venta" href="{{ route('venta.show', $venta->folio) }}">Ver venta</a>
+                                    </td>
                                 </tr>
                             @endforeach
                        </table>
                    </div>
+                   {{ $ventas->links() }}
                 </div>
                 <div class="card-footer">
                     <form method="POST" action = "/producto/actualizar_piso">
                       @csrf
                         <div class="row">
                             <div class="col-md-3 ">
-                                Buscar por cliente
+                                Buscar venta por cliente
                             </div>
-                            <div class="col-md-3  offset-md-2">
-                                <input id="id_producto" type="text" class="form-control @error('id_producto') is-invalid @enderror" name="id_producto" value="{{ old('id_producto') }}" placeholder="ID de producto" required autocomplete="id_producto" autofocus>
+                            <div class="col-md-3  offset-md-4">
+                                <input id="id_producto" type="text" class="form-control @error('id_producto') is-invalid @enderror" name="id_producto" value="{{ old('id_producto') }}" placeholder="ID de Cliente" required autocomplete="id_producto" autofocus>
                                 @error('id_producto')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -71,17 +74,9 @@
                                 @enderror
 
                             </div>
-                            <div class="col-md-2">
-                                <input id="cantidad" type="text" class="form-control @error('cantidad') is-invalid @enderror" name="cantidad" value="{{ old('cantidad') }}" required placeholder="Cantidad" autocomplete="cantidad" autofocus>
-                                @error('cantidad')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
 
-                            </div>
                             <div class="col-md-2">
-                                <input type="submit" name = "boton" value = "Agregar" class="btn btn-primary">
+                                <input type="submit" name = "boton" value = "Buscar" class="btn btn-primary">
                             </div>
                         </div>
                     </form>

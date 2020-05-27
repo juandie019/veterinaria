@@ -1,5 +1,6 @@
 <?php
 
+use App\UsuarioDisponible;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -11,6 +12,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UserSeeder::class);
+         $this->call([
+             PuestoSeeder::class,
+             UsuarioDisponibleSeeder::class,
+         ]);
     }
 }

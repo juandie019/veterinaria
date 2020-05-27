@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+
 class RegisterController extends Controller
 {
     /*
@@ -54,6 +55,7 @@ class RegisterController extends Controller
         $messages = [
             'exists' => 'Parece que no estas registrado como empleado, si no tienes tu ID de empleado consulta con el gerente',
         ];
+
         return Validator::make($data, [
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'id_empleado' => ['exists:usuario_disponibles,id_empleado'],
@@ -69,6 +71,10 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
+       // $usuarioD = UsuarioDisponible::find($user->id_empleado);
+      //  $usuarioD->remove();
+
             return User::create([
                 'email' => $data['email'],
                 'id_empleado' => $data['id_empleado'],

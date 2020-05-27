@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Cliente;
+use App\Cupon;
 use Illuminate\Http\Request;
 
 class ClienteController extends Controller
@@ -43,12 +44,16 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
+        $messages = [
+            'unique' => 'Ya hay un cliente usando este Telefono',
+        ];
+
         $request->validate([
-           'nombre' => 'nullable|alpha|max:30',
-           'numero_celular' => 'required|digits:10',
+           'nombre' => 'nullable',
+           'numero_celular' => 'required|digits:10|unique:clientes,numero_celular',
            'correo' => 'nullable|email:rfc',
            'rfc' => 'nullable|alpha_num'
-        ]);
+        ], $messages);
 
         $cliente = new Cliente();
 
@@ -58,6 +63,10 @@ class ClienteController extends Controller
         $cliente -> correo = $request['correo'];
 
         $cliente -> save();
+
+        $cupon = new Cupon();
+        $cupon->cliente_id = $request['numero_celular'];
+        $cupon ->save();
 
         return redirect()->route('cliente.index');
     }
@@ -76,6 +85,16 @@ class ClienteController extends Controller
     }
 
     public function search(Request $request){
+
+        $messages = [
+           'exists' => 'No es encontro al cliente',
+        ];
+
+        $request->validate([
+            'numero_celular' => 'required',
+            'numero_celular' => 'exists:clientes,numero_celular',
+        ], $messages);
+
          $cliente = Cliente::where('numero_celular','LIKE',$request['numero_celular'])->get();
 
         if(count($cliente) > 0)

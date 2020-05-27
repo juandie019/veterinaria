@@ -109,12 +109,12 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="cantidad" class="col-md-4 col-form-label text-md-right">{{ __('Cantidad') }}</label>
+                            <label for="existencia_almacen" class="col-md-4 col-form-label text-md-right">{{ __('Cantidad') }}</label>
 
                             <div class="col-md-6">
-                                <input id="cantidad" type="text" class="form-control @error('cantidad') es-invalido @enderror" name="cantidad" value="{{ old('cantidad') }}" autocomplete="cantidad" autofocus>
+                                <input id="existencia_almacen" type="text" class="form-control @error('existencia_almacen') es-invalido @enderror" name="existencia_almacen" value="{{ old('existencia_almacen') }}" autocomplete="existencia_almacen" autofocus>
 
-                                @error('cantidad')
+                                @error('existencia_almacen')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -140,8 +140,8 @@
                                 Agregar a almacen
                             </div>
                             <div class="col-md-3  offset-md-2">
-                                <input id="id_producto" type="text" class="form-control @error('id_producto') is-invalid @enderror" name="id_producto" value="{{ old('id_producto') }}" placeholder="ID de producto" required autocomplete="id_producto" autofocus>
-                                @error('id_producto')
+                                <input id="id_producto2" type="text" class="form-control @error('id_producto2') is-invalid @enderror" name="id_producto2" value="{{ old('id_producto2') }}" placeholder="ID de producto" required autocomplete="id_producto2" autofocus>
+                                @error('id_producto2')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>

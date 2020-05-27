@@ -75,8 +75,11 @@
                                         <a class="nav-link" href="{{ route('venta.index') }}">{{ __('Ver ventas') }}</a>
                                     </li>
                                 @endcan
-                            @endif
-                        @endauth
+                                @endif
+                                @endauth
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('file.index') }}">{{ __('Avatar') }}</a>
+                                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -94,6 +97,10 @@
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    @if(isset(Auth::user()->file))
+                                        <img src="/storage/{{ Auth::user()->file->path }}" class="rounded-circle w-15" width="30" height="30">
+                                    @endif
+
                                     @if( isset(Auth::user()->empleado))
                                        {{ Auth::user()->empleado->nombre }} <span class="caret"></span>
                                     @else
