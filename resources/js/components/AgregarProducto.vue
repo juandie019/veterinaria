@@ -77,7 +77,7 @@
                                     </div>
                                     <div class="col-md-2">
                                         <button type="submit" class="btn btn-primary form-control" @click="buscarCliente">
-                                          Buscar cliente
+                                          Aplicar Cupon
                                         </button>
                                     </div>
                                     <div class="col-md-2 offset-md-6">
@@ -173,7 +173,9 @@
           buscarCliente(){
               axios.post('/api/cliente/' + this.id_cliente)
               .then(response=>{
+                 // console.log(response.data);
                   this.id_cliente_real = this.id_cliente;
+
                   if(response.data['noFound']){
                       this.id_cliente_real = '';
                       swal("No se encontro el cliente", this.id_cliente , "error");

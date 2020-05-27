@@ -15,23 +15,23 @@ class Cupon extends Model
        return $this->belongsTo(Cliente::class, 'numero_celular', 'cliente_id');
     }
 
+    public function getDisponibleAttribute($value)//accesor
+    {
+        if ($this->monto_acumulado >= 1000)
+           return $value = true;
+
+        return $value = false;
+    }
+
     public function acumularMonto($monto)
     {
         $this->monto_acumulado += $monto;
-
-        if($this->monto_acumulado >= "1000" && $this->cupon != "cup")
-          $this->disponible = true;
-          $this->cupon = "cup";
-          $this->monto_acumulado -= 1000;
-          $this->save();
+         $this->save();
     }
 
-    public function actualizarCupon()
+    public function usar()
     {
-        if($this->monto_acumulado <= "1000"){
-          $this->disponible = false;
-          $this->cupon = null;
+        $this->monto_acumulado -= 1000;
           $this->save();
-        }
     }
 }

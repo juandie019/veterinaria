@@ -7,6 +7,7 @@ use App\VentaDetallada;
 use App\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\PDF;
 
 class VentaController extends Controller
 {
@@ -101,6 +102,14 @@ class VentaController extends Controller
     public function edit(Venta $venta)
     {
         //
+    }
+
+    public function pdf($folio)
+    {
+        $pdf = app('dompdf.wrapper');
+        $pdf ->loadHTML('<h1>Mi primer pdf</h1>');
+        //no pude hacerlo funcionar con una plantilla blade
+        return $pdf->download("VentaGeneral.pdf");
     }
 
     /**

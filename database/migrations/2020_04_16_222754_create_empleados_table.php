@@ -20,6 +20,7 @@ class CreateEmpleadosTable extends Migration
             $table->bigInteger('puesto_id');
             $table->date('fecha_contrato');
             $table->integer('sueldo_diario');
+            $table->string('numero_celular')->nullable()->default("none");
             $table->timestamps();
         });
     }

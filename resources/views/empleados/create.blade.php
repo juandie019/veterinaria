@@ -26,6 +26,20 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="id_empleado" class="col-md-4 col-form-label text-md-right">{{ __('Id de empleado') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="id_empleado" type="text" class="form-control @error('id_empleado') is-invalid @enderror" name="id_empleado" value="{{ old('id_empleado') }}" required autocomplete="id_empleado" autofocus>
+
+                                @error('id_empleado')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
                             <label for="puesto_id" class="col-md-4 col-form-label text-md-right">{{ __('Puesto') }}</label>
 
                             <div class="col-md-6">
@@ -72,6 +86,19 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label for="numero_celular" class="col-md-4 col-form-label text-md-right">{{ __('Numero de celular') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="numero_celular" type="text" class="form-control @error('numero_celular') is-invalid @enderror" name="numero_celular" value="{{ old('numero_celular') }}" autocomplete="numero_celular" autofocus>
+
+                                @error('numero_celular')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

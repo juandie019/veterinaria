@@ -2081,6 +2081,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       axios.post('/api/cliente/' + this.id_cliente).then(function (response) {
+        // console.log(response.data);
         _this3.id_cliente_real = _this3.id_cliente;
 
         if (response.data['noFound']) {
@@ -37991,7 +37992,7 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        "\n                                      Buscar cliente\n                                    "
+                        "\n                                      Aplicar Cupon\n                                    "
                       )
                     ]
                   )

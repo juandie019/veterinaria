@@ -45,29 +45,41 @@ class EmpleadoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id_empleado = "")
+    public function store(Request $request, $id_empl = "")
     {
+        $messages = [
+            'unique' => 'Ya se esta usando este id',
+        ];
 
-        $message = $request->validate([
-            'nombre' => 'required',
-            'puesto_id' => 'required|int',
-            'fecha' => 'date|required',
-            'sueldo' => 'int'
+        if($id_empl == ""){
+           $request->validate([
+            'id_empleado' => 'unique:empleados,id_empleado',
+           ], $messages);
+        }
+            $request->validate([
+                'nombre' => 'required',
+                'puesto_id' => 'required|int',
+                'fecha' => 'date|required',
+                'sueldo' => 'int',
             ]);
 
-        if($id_empleado == "") //si no recibimos el id lo generamos
-            $id_empleado = $this->generarId($request);
+
+        // if($id_empleado == "") //si no recibimos el id lo generamos
+        //     $id_empleado = $this->generarId($request);
 
         $empleado = new Empleado();
-
         $empleado -> nombre = $request['nombre'];
-        $empleado-> id_empleado =$id_empleado;
+        if($id_empl == "")
+          $empleado -> id_empleado = $request['id_empleado'];
+        else
+          $empleado-> id_empleado =$id_empl;
         $empleado -> puesto_id = $request['puesto_id'];
         $empleado -> fecha_contrato = $request['fecha'];
         $empleado -> sueldo_diario = $request['sueldo'];
+        $empleado -> numero_celular = $request['numero_celular'];
         $empleado -> save();
 
-        $this->guardarId($id_empleado);
+        $this->guardarId($request['id_empleado']);
         return redirect()->route('empleado.index');
     }
 
@@ -132,13 +144,6 @@ class EmpleadoController extends Controller
 
     public function primerEmpleado(Request $request, $id_empleado){
          $request['puesto_id'] = "3";
-
-        //  $message = $request->validate([
-        //     'nombre' => 'required|alpha',
-        //     'puesto_id' => 'required|int',
-        //     'fecha' => 'date|required',
-        //     'sueldo' => 'int'
-        //     ]);
 
          return $this-> store($request, $id_empleado);
     }

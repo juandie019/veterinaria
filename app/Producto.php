@@ -8,7 +8,7 @@ class Producto extends Model
 {
     protected $primaryKey = 'id_producto';
 
-    public function reducir_piso($cantidad)//accesor
+    public function reducir_piso($cantidad)
     {
         if(intval($this->existencia_piso) < intval($cantidad))
          return false;

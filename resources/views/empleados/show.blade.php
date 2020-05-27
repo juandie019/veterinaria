@@ -39,7 +39,7 @@
                 <div class="col-md-6">
                     <div class="row">
                             <p class="col-md-4">Numero de  celular</p>
-                            <p class="col-md-6 text-md-left">{{$empleado[0]->puesto}}</p>
+                            <p class="col-md-6 text-md-left">{{$empleado[0]->numero_celular}}</p>
                     </div>
                 </div>
             </div>

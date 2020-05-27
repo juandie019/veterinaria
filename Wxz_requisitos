@@ -5,12 +5,6 @@ El objetivo es que experimenten desarrollar un sistema pensando como un full sta
 Implementar al menos un CRUD (Resource Controller).
 
 
-Relaciones
-La información almacenada deberá estar relacionada:
-Muchos a muchos (m:n).
-Crear una relación con más de un modelo (Polimórfica).
-
-
 Carga de archivos, uno o muchos a la vez.
 Eliminar o reemplazar archivos.
 

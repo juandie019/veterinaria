@@ -69,6 +69,9 @@
                        </table>
                    </div>
                 </div>
+                <div class="card-footer">
+                    <a href="{{ route('venta.pdf', $ventaGeneral->folio) }}">Descargar pdf</a>
+                </div>
             </div>
         </div>
     </div>

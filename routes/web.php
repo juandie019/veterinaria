@@ -38,3 +38,4 @@ Route::post('/empleado/{id_empleado}/primero', 'EmpleadoController@primerEmplead
 Route::post('/producto/{productoId}', 'ProductoController@buscar')->name('producto.buscar');
 Route::get('/venta/devolver/{ventaID}', 'DevolucionVenta@devolverProducto')->name('venta.devolver');
 Route::get('/user/{imagen_id}', 'ImagenController@update')->name('user.imagen');
+Route::get('/venta/{folio}/pdf', 'VentaController@pdf')->name('venta.pdf');

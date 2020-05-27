@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Storage;
 use App\File;
 use Intervention\Image\Facades\Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
@@ -47,9 +47,6 @@ class FileController extends Controller
 
         foreach ($imagenes as $imagen){
            $imagePath = $imagen->store('uploads', 'public');
-          // $image = Image::make(public_path("storage/{$imagePath}"));
-           //$image->resize(40, 40);
-         //  $image->save();
 
            $file = new File();
            $file->path = $imagePath;
@@ -80,7 +77,12 @@ class FileController extends Controller
      */
     public function edit(File $file)
     {
-        //
+        //dd($file->path);
+       // Storage::disk('public')->delete($file->path);
+       $file->delete();
+
+       return redirect()->route('file.index');
+        return back();
     }
 
     /**
@@ -103,6 +105,9 @@ class FileController extends Controller
      */
     public function destroy(File $file)
     {
-        //
+        //Storage::delete($file->path);
+        //File::delete($file->path);
+        $file->delete();
+        return back();
     }
 }

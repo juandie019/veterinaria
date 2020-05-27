@@ -40,7 +40,7 @@ class VentaController extends Controller
 
         if(isset($cliente)){
            if($cliente->cupon->disponible)
-              $cliente->cupon->actualizarCupon();
+              $cliente->cupon->usar();
 
             $cliente->cupon->acumularMonto($total);
             $cliente->cupon->save();

@@ -7,6 +7,21 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
+## About student
+-Nombre del proyecto: veterina
+
+-Descripción y objetivo del Proyecto
+El Proyecto fue creado para la administración de una veterinaria, esta veterinaria requería de llevar el control de sus ventas, clientes, productos y empleados. La veterinaria no contaba con ningún tipo de Sistema y llevar el control de forma manual les estaba costando mucho trabajo. 
+
+-Integrantes:
+Juan Diego Gómez
+
+-Instrucciones de instalación 
+Una vez descargado el Proyecto es necesario correr php artisan migrate:fresh –seed 
+Para correr las migraciones y plantar algunas semillas para que el Sistema pueda funcionar.
+Una de estas semillas el el id de empleado ge001 que es necesario para empezar administrar todo el Sistema. También es necesario correr npm run dev para que los componentes de vue puedan trabajar de forma adecuada.
+
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:

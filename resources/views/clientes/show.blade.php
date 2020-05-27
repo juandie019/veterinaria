@@ -27,6 +27,11 @@
                             {{ __('Cupones disponibles') }}
                         </div>
                         <div class="card-body">
+                            @if ( $cliente[0]->cupon->disponible)
+                                Cuenta con cupones disponibles
+                            @else
+                                No cuenta con cupones disponibles
+                            @endif
                         </div>
                     </div>
                 </div>
