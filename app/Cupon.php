@@ -29,9 +29,15 @@ class Cupon extends Model
          $this->save();
     }
 
-    public function usar()
+    public function obtenerCupones()
     {
-        $this->monto_acumulado -= 1000;
+        return intval($this->monto_acumulado / 1000);
+    }
+    public function usar($cantidad_cupones)
+    {
+        if($cantidad_cupones <= $this->obtenerCupones()){
+          $this->monto_acumulado -= (1000 * $cantidad_cupones);
           $this->save();
+        }
     }
 }

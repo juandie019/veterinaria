@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Venta;
 use App\VentaDetallada;
 use App\Producto;
+use App\Cliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\PDF;
@@ -19,10 +20,37 @@ class VentaController extends Controller
      */
     public function index()
     {
-        $this->authorize('viewAny',Venta::class);
+        $paginate = true;
+      //  $this->authorize('viewAny',Venta::class);
 
+        //dd(Auth()->user()->empleado->ventas);
        $ventas = Venta::orderBy('created_at', 'desc')->paginate(9);
-       return view('ventas.index', compact('ventas'));
+
+       return view('ventas.index', compact('ventas', 'paginate'));
+    }
+
+    public function indexByCliente(Request $request){
+        $paginate = false;
+
+      //  $this->authorize('viewAny',Venta::class);
+
+
+        //dd($request->all());
+        $messages = [
+            'exists' => 'No se encontro el cliente',
+        ];
+
+        $request-> validate([
+            'id_cliente' => 'required',
+            'id_cliente' => 'exists:clientes,numero_celular',
+        ], $messages);
+
+
+       $cliente = Cliente::find($request['id_cliente']);
+
+       $ventas = $cliente->ventas;
+
+       return view('ventas.index', compact('ventas', 'paginate'));
     }
 
     /**
@@ -32,7 +60,7 @@ class VentaController extends Controller
      */
     public function create()
     {
-        $this->authorize('create',Venta::class);
+    //    $this->authorize('create',Venta::class);
 
         $last_id = $this->generarFolio();
 
@@ -58,6 +86,9 @@ class VentaController extends Controller
        foreach($productos as $producto){
            $this->storeVentaDetallada($producto, $folio);
        }
+
+       if($id_cliente == "")
+         $id_cliente = "publico";
 
        $venta = new Venta();
        $venta->folio = $folio;
@@ -93,8 +124,43 @@ class VentaController extends Controller
     public function show($venta_id)
     {
         $ventaGeneral = Venta::find($venta_id);
+
         $ventasD = $ventaGeneral->ventas_detalladas;
-        return view('ventas.show', compact('ventasD', 'ventaGeneral'));
+
+        $cantidad = 0;
+        $subtotal = 0;
+
+        foreach ($ventasD as $ventaD){
+           $subtotal += $ventaD->total();
+           $cantidad += $ventaD->cantidad;
+        }
+
+        $total = $subtotal + ($subtotal * .16);
+
+        $descuento = ($ventaGeneral->descuento);
+
+        if(isset($descuento)){
+            $subtotalAux = $subtotal - $descuento->cantidad;
+            $total = $subtotalAux + ($subtotalAux * .16);
+        // dd($descuento);
+       }
+
+
+        return view('ventas.show', compact('ventasD', 'ventaGeneral', 'cantidad', 'total', 'subtotal', 'descuento'));
+    }
+
+    public function search(Request $request)
+    {
+        $messages = [
+            'exists' => 'No se encontro el folio',
+        ];
+
+        $request-> validate([
+            'id_venta' => 'required',
+            'id_venta' => 'exists:ventas,folio',
+        ], $messages);
+
+        return redirect()->route('venta.show', $request['id_venta']);
     }
 
     /**
@@ -144,7 +210,7 @@ class VentaController extends Controller
 
         //$last_id ?? "0";
         if(!isset($last_id))
-            return "1";
+        return "1";
 
         return $last_id->id + 1;
     }

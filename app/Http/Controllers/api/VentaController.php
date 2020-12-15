@@ -7,6 +7,7 @@ use App\Venta;
 use App\VentaDetallada;
 use App\Producto;
 use App\Cliente;
+use App\Descuento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -27,24 +28,26 @@ class VentaController extends Controller
            $this->storeVentaDetallada($producto, $folio);
        }
 
-       $venta = new Venta();
-       $venta->folio = $folio;
-       $venta->id_cliente = $id_cliente;
-       $venta->id_empleado = auth()->user()->empleado->id;
-       $venta->total_productos = $total_productos;
-       $venta->total_pagado = $total;
-       $venta->Save();
-
-      // if($id_cliente =! 'publico'){
+       // if($id_cliente =! 'publico'){
         $cliente = Cliente::find($id_cliente);
 
         if(isset($cliente)){
-           if($cliente->cupon->disponible)
-              $cliente->cupon->usar();
+            if($cliente->cupon->disponible && $data['cantidad_cupones'] > 0){
+                $cliente->cupon->usar($data['cantidad_cupones']);
+                $this->descuento($folio, $data['descuento']);
+             }
 
-            $cliente->cupon->acumularMonto($total);
-            $cliente->cupon->save();
-        }
+             $cliente->cupon->acumularMonto($total);
+             $cliente->cupon->save();
+        }else
+          $id_cliente = "9874561230";
+
+        $venta = new Venta();
+        $venta->folio = $folio;
+        $venta->id_cliente = $id_cliente;
+        $venta->id_empleado = auth()->user()->id_empleado;
+        $venta->Save();
+
 
 
      //  }
@@ -73,5 +76,14 @@ class VentaController extends Controller
             return "1";
 
         return $last_id->id + 1;
+    }
+
+    public function descuento($folio, $cantidad)
+    {
+        $descuento = new Descuento();
+
+        $descuento->folio_venta = $folio;
+        $descuento->cantidad = $cantidad;
+        $descuento->save();
     }
 }

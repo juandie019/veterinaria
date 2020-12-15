@@ -5,6 +5,9 @@
  */
 import swal from 'sweetalert';
 require('./bootstrap');
+let EscPosEncoder = require('esc-pos-encoder');
+
+
 
 window.Vue = require('vue');
 

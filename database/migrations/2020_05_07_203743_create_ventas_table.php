@@ -16,10 +16,10 @@ class CreateVentasTable extends Migration
         Schema::create('ventas', function (Blueprint $table) {
             $table->id();
             $table->string("folio")->unique()->nullable();
-            $table->string("id_cliente")->nullable();
+            $table->string("id_cliente")->nullable()->default("publico");
             $table->string("id_empleado")->nullable();
-            $table->integer("total_productos")->nullable();
-            $table->integer("total_pagado")->nullable();
+            //$table->integer("total_productos")->nullable();
+            //$table->integer("total_pagado")->nullable();
             $table->timestamps();
         });
     }

@@ -25,10 +25,10 @@ class DevolucionVenta extends Controller
        $ventaD->devuelto = true;
      $ventaD->save();
 
-     //actualizamos nuestra venta general
-     $ventaD->venta->total_productos -= $request['cantidad'];
-     $ventaD->venta->total_pagado -= $ventaD->precio * $request['cantidad'];
-     $ventaD->venta->save();
+    //  //actualizamos nuestra venta general
+    //  $ventaD->venta->total_productos -= $request['cantidad'];
+    //  $ventaD->venta->total_pagado -= $ventaD->precio * $request['cantidad'];
+    //  $ventaD->venta->save();
 
 
      return back();

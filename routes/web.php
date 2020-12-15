@@ -1,6 +1,7 @@
 <?php
 
 use App\Mail\WelcomeEmail;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,5 +38,13 @@ Route::post('/empleado/search', 'EmpleadoController@search')->name('empleado.sea
 Route::post('/empleado/{id_empleado}/primero', 'EmpleadoController@primerEmpleado');
 Route::post('/producto/{productoId}', 'ProductoController@buscar')->name('producto.buscar');
 Route::get('/venta/devolver/{ventaID}', 'DevolucionVenta@devolverProducto')->name('venta.devolver');
+route::post('/venta/search', 'VentaController@search');
+route::post('/venta/cliente_index', 'VentaController@indexByCliente');
 Route::get('/user/{imagen_id}', 'ImagenController@update')->name('user.imagen');
 Route::get('/venta/{folio}/pdf', 'VentaController@pdf')->name('venta.pdf');
+
+Route::get('/mensaje', function () {
+    return view('mensaje');
+});
+
+Route::post('/mensaje', 'ProductoController@sendM');

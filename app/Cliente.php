@@ -13,6 +13,10 @@ class Cliente extends Model
         return $this->hasOne(Cupon::class, 'cliente_id', 'numero_celular');
     }
 
+    public function ventas(){
+        return $this->hasMany(Venta::class, 'id_cliente', 'numero_celular')->orderBy('created_at', 'desc');
+    }
+
     // protected static function boot()
     // {
     //     parent::boot();

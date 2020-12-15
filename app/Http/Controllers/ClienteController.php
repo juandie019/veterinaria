@@ -21,7 +21,7 @@ class ClienteController extends Controller
 
     public function index()
     {
-        $this->authorize('viewAny', Cliente::class);
+      //  $this->authorize('viewAny', Cliente::class);
 
         $clientes = Cliente::orderBy('created_at', 'desc')->get();
 
@@ -35,7 +35,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        $this->authorize('create', Cliente::class);
+     //   $this->authorize('create', Cliente::class);
 
         return view('clientes.create');
     }
@@ -85,7 +85,7 @@ class ClienteController extends Controller
 
     public function show(Cliente $cliente)
     {
-        $this->authorize('viewAny',Cliente::class);
+      //  $this->authorize('viewAny',Cliente::class);
 
         return view('clientes.show', compact('cliente'));
     }

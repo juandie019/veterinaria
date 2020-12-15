@@ -7,11 +7,12 @@ use Dotenv\Repository\RepositoryInterface;
 use Illuminate\Http\Request;
 use SebastianBergmann\Environment\Console;
 use App\Http\Resources\Producto as ProductoResource;
+use Twilio\Rest\Client;
 
 class ProductoController extends Controller
 {
     public function __construct(){
-        $this->middleware('auth');
+        //$this->middleware('auth');
     }
 
     /**
@@ -21,7 +22,7 @@ class ProductoController extends Controller
      */
     public function index($mensaje = "")
     {
-        $this->authorize('viewAny',Producto::class);
+      //  $this->authorize('viewAny',Producto::class);
 
         $productos = Producto::orderBy('created_at', 'desc')->paginate(9);
 
@@ -35,7 +36,7 @@ class ProductoController extends Controller
      */
     public function create()
     {
-        $this->authorize('create', Producto::class);
+      //  $this->authorize('create', Producto::class);
 
         return view('productos.create');
     }
@@ -174,5 +175,34 @@ class ProductoController extends Controller
     public function destroy(Producto $producto)
     {
         //
+    }
+
+    public function sendM(Request $request)
+    {
+
+        $recipient = '+1'.$request['numero'];
+        $message = $request['body'];
+
+        // $twilio_whatsapp_number = getenv('TWILIO_WHATSAPP_NUMBER');
+        // $account_sid = getenv("TWILIO_SID");
+        // $auth_token = getenv("TWILIO_AUTH_TOKEN");
+
+        // $client = new Client($account_sid, $auth_token);
+        // $client->messages->create($recipient, array('from' => "whatsapp:$twilio_whatsapp_number", 'body' => $message));
+        // return redirect()->route('producto.index');
+
+
+        $sid = getenv("TWILIO_SID");
+        $token = getenv("TWILIO_AUTH_TOKEN");
+        $twilio_number = getenv('TWILIO_NUMBER');
+        $twilio = new Client($sid, $token);
+        $message = $twilio->messages
+                        ->create($recipient, // to
+                                array(
+                                    "from" => $twilio_number,
+                                    "body" => $message
+                                )
+                        );
+        print($message->sid);
     }
 }

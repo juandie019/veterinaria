@@ -16,11 +16,11 @@ class ClienteController extends Controller
 
         if(isset($cliente)){
 
-        if($cliente->cupon->disponible){
-            return response(['cupon' => true]);
-        }
+            if($cliente->cupon->disponible){
+                return response(['cupon' => true, 'nombre' => $cliente->nombre, 'cantidad' => $cliente->cupon->obtenerCupones()]);
+            }
 
-        return response($cliente->numero_celular);
+            return response(['nombre' => $cliente->nombre]);
         }
 
         return response(['noFound' => true]);

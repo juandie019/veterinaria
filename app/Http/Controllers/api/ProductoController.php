@@ -13,15 +13,16 @@ class ProductoController extends Controller
 {
     public function buscar(Request $request, $productoId)
     {
-        $producto = Producto::find($productoId);
+        $producto = Producto::find($productoId);//1
 
-            if(isset($producto)){
+            if(isset($producto)){ //2
 
-                if(intval($producto->existencia_piso) < intval($request['cantidad']))
-                   return response(['noSuficiente' => true,  'cantidad' => $producto->existencia_piso]);
+                if(intval($producto->existencia_piso) < intval($request['cantidad']) || intval($request['cantidad']) <= 0)// 3 4
+                   return response(['noSuficiente' => true,  'cantidad' => $producto->existencia_piso]);// 5
 
-                return response(new ProductoResource($producto));
-            }else return response(['noFound' => true]);
+                return response(new ProductoResource($producto)); //6
+            }else
+            return response(['noFound' => true]); //7
     }
 
    // public function reducir_productos($)

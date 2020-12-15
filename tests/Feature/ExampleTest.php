@@ -12,10 +12,37 @@ class ExampleTest extends TestCase
      *
      * @return void
      */
-    public function testBasicTest()
+    public function testProductoEncontradoYCantidadSuficiente()
     {
-        $response = $this->get('/');
+        $response = $this->postJson('/api/producto/1414',['cantidad' => 1]);
 
-        $response->assertStatus(200);
+        $response -> assertJson([
+                    "id_producto" => 1414,
+                    "nombre" => "CROQUETAS",
+                    "descripcion" => "De maiz",
+                    "cantidad_disponible" => 109,
+                    "precio" => 150]);
+    }
+
+    public function testProductoExistePeroLaCantidadSolicitadaEsNegativa()
+    {
+        $response = $this->postJson('/api/producto/1414',['cantidad' => -1]);
+
+        $response -> assertJson(['noSuficiente' => true]);
+    }
+
+    public function testProductoExistePeroLaCantidadSolicitadaExcedeElExistente()
+    {
+        $response = $this->postJson('/api/producto/1414',['cantidad' => 1000]);
+
+        $response -> assertJson(['noSuficiente' => true]);
+    }
+
+
+    public function testProductoNoExiste()
+    {
+        $response = $this->postJson('/api/producto/1617',['cantidad' => 10]);
+
+        $response -> assertJson(['noFound' => true]);
     }
 }

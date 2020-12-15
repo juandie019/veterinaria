@@ -1,4 +1,10 @@
 // agregar polices a los controladores
 //random(1000); para el el usuariorr
 
+
+
+//hacer un seeder para un cliente publico
+//hacer arreglar el boton devolver
+
+
 //no inclui softdeletes pero agregue pagination que en dificultad es parecido

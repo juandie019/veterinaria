@@ -15,6 +15,11 @@ class Empleado extends Model
         return $this->belongsTo(User::class, 'id_empleado', 'id_empleado');
     }
 
+    public function ventas()
+    {
+        return $this->hasMany(Venta::class, 'id_empleado', 'id_empleado');
+    }
+
     public function esGerente()
     {
         return $this->puesto->nombre == 'gerente';
