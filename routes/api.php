@@ -18,9 +18,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//Route::post('/producto/{id_producto}', 'api\ProductoController@buscar')->middleware(['auth:api']);
+Route::post('/producto/{id_producto}', 'api\ProductoController@buscar')->middleware(['auth:api']);
 Route::post('/producto/{id_producto}', 'api\ProductoController@buscar');
 Route::post('/venta/store', 'api\VentaController@store')->middleware(['auth:api']);
 route::post('/cliente/{id_cliente}', 'api\ClienteController@buscar')->middleware(['auth:api']);
 
-
+// Route::middleware('auth:api')->get('/usuario', function (Request $request) {
+//     return response('hi');
+// });
